@@ -2,7 +2,7 @@
   "feeder": {
     "enabled": true,
     "saveDownloadedJson": true,
-    "importDownloadedJson": true,
+    "importDownloadedJson": false,
     "xonstatSubmissionUrl": "http://localhost:8080/stats/submit",
     "jsondir": "./ql-match-jsons/",
     "logLevel": "TRACE",
