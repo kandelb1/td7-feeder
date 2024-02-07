@@ -483,7 +483,8 @@ function onZmqMessageCallback(conn, data) {
   var msg = data.toString();
   var obj = JSON.parse(msg);
   var now = new Date().getTime();
-  _logger.trace(conn.addr + ": received ZMQ message: " + msg);
+  // _logger.trace(conn.addr + ": received ZMQ message: " + msg);
+  _logger.info(conn.addr + ": ZMQ message is type " + obj.TYPE);
 
   //fs.writeFileSync("temp/" + obj.TYPE.toLowerCase() + ".json", msg);
 
@@ -734,6 +735,10 @@ function saveGameJson(game, toErrorDir) {
   var dirName2 = toErrorDir ? basedir + "errors" : dirName1 + "/" + ("0" + date.getDate()).slice(-2);
   var filePath = dirName2 + "/" + game.matchStats.MATCH_GUID + ".json.gz";
   _logger.debug("saving JSON: " + filePath);
+  _logger.debug("dirName1: " + dirName1);
+  _logger.debug("dirName2: " + dirName2);
+  _logger.debug("filePath: " + filePath);
+
   return createDir(dirName1)
     .then(createDir(dirName2))
     .then(function() { return Q.nfcall(zlib.gzip, JSON.stringify(game)); })
