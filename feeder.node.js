@@ -483,7 +483,7 @@ function onZmqMessageCallback(conn, data) {
   var msg = data.toString();
   var obj = JSON.parse(msg);
   var now = new Date().getTime();
-  _logger.trace(conn.addr + ": received ZMQ message: " + msg);
+  // _logger.trace(conn.addr + ": received ZMQ message: " + msg);
 
   //fs.writeFileSync("temp/" + obj.TYPE.toLowerCase() + ".json", msg);
 
@@ -526,6 +526,7 @@ function onZmqMessageCallback(conn, data) {
     if (!obj.DATA.WARMUP)
       conn.playerStats.push(obj.DATA);
   } else if (obj.TYPE == "MATCH_REPORT") {
+    _logger.trace(conn.addr + ": received MATCH_REPORT message.");
     onMatchReport();
     if (_config.feeder.trackDuelEvents && conn.gameType == "duel") {
       var file = _config.feeder.jsondir + "duel/" + obj.DATA.MATCH_GUID + ".json";
@@ -734,6 +735,8 @@ function saveGameJson(game, toErrorDir) {
   var dirName2 = toErrorDir ? basedir + "errors" : dirName1 + "/" + ("0" + date.getDate()).slice(-2);
   var fileName = `${game.matchStats.MAP}-${game.matchStats.TSCORE0}to${game.matchStats.TSCORE1}-${game.gameEndTimestamp}`;
   var filePath = dirName2 + "/" + fileName + ".json.gz";
+
+  _logger.trace(`Attempting to save match data for map ${game.matchStats.MAP} RED ${game.matchStats.TSCORE0} BLUE ${game.matchStats.TSCORE1}...`)
 
   return createDir(dirName1)
     .then(createDir(dirName2))
