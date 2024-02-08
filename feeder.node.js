@@ -732,7 +732,8 @@ function saveGameJson(game, toErrorDir) {
   var date = new Date(game.gameEndTimestamp * 1000);
   var dirName1 = toErrorDir ? basedir : basedir + date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2);
   var dirName2 = toErrorDir ? basedir + "errors" : dirName1 + "/" + ("0" + date.getDate()).slice(-2);
-  var filePath = dirName2 + "/" + game.matchStats.MATCH_GUID + ".json.gz";
+  var fileName = `${game.matchStats.MAP}-${game.matchStats.TSCORE0}to${game.matchStats.TSCORE1}-${game.gameEndTimestamp}`;
+  var filePath = dirName2 + "/" + fileName + ".json.gz";
 
   return createDir(dirName1)
     .then(createDir(dirName2))
